@@ -1,0 +1,2 @@
+2025-05-07T15:59:49.012Z - Album validation failed: userId: Cast to ObjectId failed for value "<ID_de_um_usuário_existente>" (type string) at path "userId" because of "BSONError"
+2025-05-07T16:03:58.301Z - E11000 duplicate key error collection: wataPhotos.users index: email_1 dup key: { email: "joao.silva@example.com" }
