@@ -37,7 +37,7 @@ exports.createUser = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.find({}, '-password'); // não mostrar senhas
+    const users = await User.find({}, '-password');
     res.json(users);
   } catch (error) {
     logError(error);

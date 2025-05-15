@@ -93,7 +93,7 @@ exports.addPhotoToAlbum = async (req, res) => {
 
     res.json({ message: 'Foto removida do álbum com sucesso.', album });
   } catch (error) {
-    console.error(error);
+    logError(error);
     res.status(500).json({ message: 'Erro ao remover foto do álbum.' });
   }
 };
@@ -121,7 +121,7 @@ exports.removePhotoFromAlbum = async (req, res) => {
 
     res.json({ message: 'Foto removida do álbum com sucesso.', album });
   } catch (error) {
-    console.error(error);
+    logError(error);
     res.status(500).json({ message: 'Erro ao remover foto do álbum.' });
   }
 };
