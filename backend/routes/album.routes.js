@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const albumController = require('../controller/album.controller');
+const auth = require('../middlewares/auth');
+
+router.use(auth);
 
 router.post('/', albumController.createAlbum);
 router.get('/', albumController.getAllAlbums);

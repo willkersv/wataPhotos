@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/upload');
 const photoController = require('../controller/photo.controller');
+const auth = require('../middlewares/auth');
+
+router.use(auth);
 
 router.post('/', upload.single('file'), photoController.uploadPhoto);
 router.get('/', photoController.getAllPhotos);

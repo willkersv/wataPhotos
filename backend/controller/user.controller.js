@@ -2,6 +2,7 @@ const User = require('../model/User');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
+const jwt = require('jsonwebtoken');
 
 const logError = (error) => {
   const logPath = path.join(__dirname, '../logs/errors.log');
@@ -81,8 +82,15 @@ exports.login = async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
   
+      const token = jwt.sign(
+        { id: user._id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+      
       res.json({
         message: 'Login realizado com sucesso.',
+        token,
         user: {
           _id: user._id,
           name: user.name,

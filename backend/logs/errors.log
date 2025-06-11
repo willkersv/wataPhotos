@@ -2,3 +2,16 @@
 2025-05-07T16:03:58.301Z - E11000 duplicate key error collection: wataPhotos.users index: email_1 dup key: { email: "joao.silva@example.com" }
 2025-05-15T12:47:14.346Z - Album validation failed: user: Path `user` is required., title: Path `title` is required.
 2025-05-15T13:18:26.048Z - Album validation failed: user: Path `user` is required., title: Path `title` is required.
+2025-06-11T13:48:46.801Z - jwt is not defined
+2025-06-11T13:48:49.100Z - jwt is not defined
+2025-06-11T13:49:28.332Z - jwt is not defined
+2025-06-11T13:56:11.356Z - jwt is not defined
+2025-06-11T13:56:27.778Z - jwt is not defined
+2025-06-11T13:56:28.578Z - jwt is not defined
+2025-06-11T13:56:29.207Z - jwt is not defined
+2025-06-11T13:56:29.929Z - jwt is not defined
+2025-06-11T13:56:31.087Z - jwt is not defined
+2025-06-11T13:56:56.316Z - jwt is not defined
+2025-06-11T13:56:57.342Z - jwt is not defined
+2025-06-11T13:56:57.953Z - jwt is not defined
+2025-06-11T13:56:58.616Z - jwt is not defined

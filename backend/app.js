@@ -5,6 +5,8 @@ const albumRoutes = require('./routes/album.routes');
 const userRoutes = require('./routes/user.routes');
 const path = require('path');
 
+require('dotenv').config();
+
 const app = express();
 
 mongoose.connect(process.env.MONGO_URI, {
