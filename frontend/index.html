@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WataPhotos</title>
+
+  <link rel="stylesheet" href="../frontend/assets/css/styles.css" />
+  <link rel="stylesheet" href="../frontend/assets/css/login.css" />
+</head>
+
+<body>
+  <main class="card">
+    <h1>Acesse sua conta : )</h1>
+
+    <form id="loginForm">
+      <input type="email" name="email" placeholder="E‑mail" required />
+      <input type="password" name="password" placeholder="Senha" required />
+      <button type="submit">Entrar</button>
+      <p class="error" id="errorMsg"></p>
+    </form>
+
+    <p class="helper">
+      Ainda não possui conta?
+      <a href="../frontend/views/signup.html">Criar novo usuário</a>
+    </p>
+  </main>
+
+  <script type="module">
+    const form = document.getElementById("loginForm");
+    const msg = document.getElementById("errorMsg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.textContent = "";
+
+      const body = Object.fromEntries(new FormData(form));
+
+      try { // Fazer a requisição para o backend do login
+        const res = await fetch("http://localhost:3000/api/users/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+          msg.textContent = (await res.json()).message || "Erro";
+          return;
+        }
+
+        const data = await res.json();
+        const { token } = data;
+        const { name } = data.user;
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("name", name);
+        window.location.href = "/frontend/views/home.html";
+      } catch {
+        msg.textContent = "Falha de conexão";
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WataPhotos</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="../assets/img/logo.png" alt="WataPhotos Logo">
+    </div>
+
+    <nav>
+      <a href="../views/home.html">Galeria</a>
+      <a href="#" id="createAlbumBtn">Criar Álbum</a>
+    </nav>
+
+    <div class="user-info">
+      <span id="username">Nome do usuário</span>
+      <div id="logoutOption" class="logout-option" style="cursor: pointer;">Sair</div>
+    </div>
+  </header>
+
+  <main>
+    <h2>Álbuns</h2>
+    <section class="album-grid" id="albumGrid"></section>
+  </main>
+
+  <!-- Modal de criação de álbum -->
+  <div class="modal hidden" id="albumModal">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-box">
+      <h3>Novo Álbum</h3>
+      <input type="text" id="albumTitle" placeholder="Título do álbum" />
+      <textarea id="albumDescription" placeholder="Descrição (opcional)"></textarea>
+      <div class="modal-actions">
+        <button class="btn-outline" id="cancelModal">Cancelar</button>
+        <button class="btn-primary" id="submitAlbum">Criar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/album-list.js"></script>
+</body>
+</html>

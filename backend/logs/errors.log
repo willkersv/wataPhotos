@@ -15,3 +15,25 @@
 2025-06-11T13:56:57.342Z - jwt is not defined
 2025-06-11T13:56:57.953Z - jwt is not defined
 2025-06-11T13:56:58.616Z - jwt is not defined
+2025-06-18T22:12:32.382Z - Operation `users.findOne()` buffering timed out after 10000ms
+2025-06-18T22:12:48.478Z - Operation `users.findOne()` buffering timed out after 10000ms
+2025-06-18T22:12:56.718Z - Operation `users.findOne()` buffering timed out after 10000ms
+2025-06-18T22:13:18.928Z - Operation `users.findOne()` buffering timed out after 10000ms
+2025-06-18T22:29:30.250Z - Operation `users.findOne()` buffering timed out after 10000ms
+2025-06-18T22:29:35.751Z - Operation `users.findOne()` buffering timed out after 10000ms
+2025-06-18T23:22:25.336Z - Photo validation failed: title: Path `title` is required.
+2025-06-18T23:24:00.119Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T00:42:20.636Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T01:18:11.285Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T01:20:46.394Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T01:24:00.517Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T01:29:59.124Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T01:31:37.982Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T01:35:29.370Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T01:35:37.239Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T01:35:43.698Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T13:25:00.365Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T13:25:19.591Z - Photo validation failed: title: Path `title` is required.
+2025-06-19T13:30:37.669Z - Photo validation failed: user: Cast to ObjectId failed for value "id-do-usuario-aqui" (type string) at path "user" because of "BSONError"
+2025-06-19T13:31:07.524Z - Photo validation failed: user: Cast to ObjectId failed for value "id-do-usuario-aqui" (type string) at path "user" because of "BSONError"
+2025-06-19T13:31:17.999Z - Photo validation failed: user: Cast to ObjectId failed for value "id-do-usuario-aqui" (type string) at path "user" because of "BSONError"
