@@ -1,105 +1,203 @@
-const API_BASE = "http://localhost:3000";
-const token = localStorage.getItem("token");
-const name = localStorage.getItem("name");
+const API_BASE = 'http://localhost:3000';
 
-if (!token || !name) {
-  window.location.href = "login.html";
-}
+(() => {
+  const token = localStorage.getItem('token');
+  const name = localStorage.getItem('name');
 
-// Preencher nome
-document.getElementById("username").textContent = name;
+  if (!token || !name) {
+    window.location.href = 'login.html';
+    return;
+  }
 
-// Logout
-document.getElementById("logoutOption").addEventListener("click", () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("name");
-  window.location.href = "../index.html";
-});
+  const usernameEl = document.getElementById('username');
+  const logoutEl = document.getElementById('logoutOption');
+  const albumGrid = document.getElementById('albumGrid');
 
-// Modal
-const modal = document.getElementById("albumModal");
-const backdrop = document.getElementById("modalBackdrop");
-const btnOpen = document.getElementById("createAlbumBtn");
-const btnCancel = document.getElementById("cancelModal");
-const btnSubmit = document.getElementById("submitAlbum");
+  usernameEl.textContent = name;
+  logoutEl.style.display = 'block';
 
-btnOpen.addEventListener("click", () => modal.classList.remove("hidden"));
-btnCancel.addEventListener("click", () => modal.classList.add("hidden"));
-backdrop.addEventListener("click", () => modal.classList.add("hidden"));
+  logoutEl.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('name');
+    window.location.href = '../index.html';
+  });
 
-// Criar álbum
-btnSubmit.addEventListener("click", async () => {
-  const title = document.getElementById("albumTitle").value.trim();
-  const description = document.getElementById("albumDescription").value.trim();
+  const createModal = document.getElementById('createAlbumModal');
+  const createAlbumBtn = document.getElementById('createAlbumBtn');
+  const cancelModalBtn = document.getElementById('cancelModal');
+  const submitAlbumBtn = document.getElementById('submitAlbum');
+  const albumTitleInput = document.getElementById('albumTitle');
+  const albumDescriptionInput = document.getElementById('albumDescription');
+  const modalBackdrop = document.getElementById('modalBackdrop');
 
-  if (!title) return alert("Informe um título para o álbum.");
+  createAlbumBtn.addEventListener('click', e => {
+    e.preventDefault();
+    createModal.classList.remove('hidden');
+    albumTitleInput.value = '';
+    albumDescriptionInput.value = '';
+  });
 
-  try {
-    const decoded = JSON.parse(atob(token.split('.')[1]));
-    const userId = decoded.id;
+  const closeCreateModal = () => createModal.classList.add('hidden');
+  cancelModalBtn.addEventListener('click', closeCreateModal);
+  modalBackdrop.addEventListener('click', closeCreateModal);
 
-    const res = await fetch(`${API_BASE}/api/albums`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ title, description, userId })
-    });
+  submitAlbumBtn.addEventListener('click', async () => {
+    const title = albumTitleInput.value.trim();
+    const description = albumDescriptionInput.value.trim();
 
-    if (!res.ok) {
-      const data = await res.json();
-      return alert(data.message || "Erro ao criar álbum.");
+    if (!title) {
+      alert('Por favor, preencha o título do álbum.');
+      return;
     }
 
-    alert("Álbum criado com sucesso!");
-    modal.classList.add("hidden");
-    loadAlbums();
-  } catch (err) {
-    console.error("Erro ao criar álbum:", err);
-    alert("Erro na criação do álbum.");
-  }
-});
+    try {
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const userId = decoded.id;
 
-// Carregar álbuns existentes
-async function loadAlbums() {
-  const grid = document.getElementById("albumGrid");
-  grid.innerHTML = "";
+      const res = await fetch(`${API_BASE}/api/albums`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, description, userId })
+      });
 
-  try {
-    const res = await fetch(`${API_BASE}/api/albums`, {
-      headers: { Authorization: `Bearer ${token}` }
+      if (!res.ok) throw new Error();
+      closeCreateModal();
+      await loadAlbums();
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao criar álbum.');
+    }
+  });
+
+  const viewModal = document.getElementById('viewAlbumModal');
+  const modalTitle = document.getElementById('modalAlbumTitle');
+  const modalPhotos = document.getElementById('modalPhotos');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const deleteAlbumBtn = document.getElementById('deleteAlbumBtn');
+
+  let currentAlbumId = null;
+  let currentAlbumData = null;
+
+  closeModalBtn.addEventListener('click', () => {
+    viewModal.classList.add('hidden');
+  });
+
+  deleteAlbumBtn.addEventListener('click', async () => {
+    if (!confirm('Deseja mesmo excluir este álbum?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/albums/${currentAlbumId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error();
+      viewModal.classList.add('hidden');
+      await loadAlbums();
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao excluir álbum.');
+    }
+  });
+
+  const updateBtn = document.createElement('button');
+  updateBtn.textContent = 'Editar Informações';
+  updateBtn.className = 'btn-primary';
+  updateBtn.addEventListener('click', () => {
+    const newTitle = prompt('Novo título do álbum:', currentAlbumData.title);
+    const newDescription = prompt('Nova descrição do álbum:', currentAlbumData.description || '');
+
+    if (!newTitle) return alert('O título não pode ser vazio.');
+
+    fetch(`${API_BASE}/api/albums/${currentAlbumId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ title: newTitle, description: newDescription })
+    })
+      .then(res => res.json())
+      .then(data => {
+        alert('Álbum atualizado com sucesso.');
+        openAlbum(data.album);
+        loadAlbums();
+      })
+      .catch(() => alert('Erro ao atualizar álbum.'));
+  });
+
+  function openAlbum(album) {
+    currentAlbumId = album._id;
+    currentAlbumData = album;
+    modalTitle.textContent = album.title;
+    modalPhotos.innerHTML = '';
+
+    album.photos.forEach(photo => {
+      const container = document.createElement('div');
+      container.className = 'photo';
+      container.innerHTML = `
+        <img src='${API_BASE}/uploads/${photo.filename}' alt='' />
+        <button class='btn-outline' style='margin-top:.5rem'>Remover</button>
+      `;
+      container.querySelector('button').addEventListener('click', () => removePhotoFromAlbum(photo._id));
+      modalPhotos.appendChild(container);
     });
 
-    const albums = await res.json();
+    if (!document.getElementById('updateAlbumBtn')) {
+      const actions = document.querySelector('.modal-actions');
+      updateBtn.id = 'updateAlbumBtn';
+      actions.insertBefore(updateBtn, actions.firstChild);
+    }
 
-    albums.forEach(album => {
-      const card = document.createElement("a");
-      card.className = "album-card";
-      card.href = `../views/album.html?albumId=${album._id}&title=${encodeURIComponent(album.title)}`;
-
-      const preview = document.createElement("div");
-      preview.className = "album-preview";
-
-      const previewImgs = album.photos.slice(0, 4);
-      for (let i = 0; i < 4; i++) {
-        const img = document.createElement("img");
-        img.src = previewImgs[i] ? `${API_BASE}/uploads/${previewImgs[i].filename}` : "../assets/img/placeholder.png";
-        preview.appendChild(img);
-      }
-
-      const title = document.createElement("div");
-      title.className = "album-title";
-      title.textContent = album.title;
-
-      card.appendChild(preview);
-      card.appendChild(title);
-      grid.appendChild(card);
-    });
-  } catch (err) {
-    console.error("Erro ao carregar álbuns:", err);
-    grid.textContent = "Erro ao carregar álbuns.";
+    viewModal.classList.remove('hidden');
   }
-}
 
-document.addEventListener("DOMContentLoaded", loadAlbums);
+  async function removePhotoFromAlbum(photoId) {
+    try {
+      const res = await fetch(`${API_BASE}/api/albums/${currentAlbumId}/remove-photo`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ photoId })
+      });
+
+      if (!res.ok) throw new Error();
+      const { album } = await res.json();
+      openAlbum(album);
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao remover foto.');
+    }
+  }
+
+  async function loadAlbums() {
+    albumGrid.innerHTML = '';
+    try {
+      const res = await fetch(`${API_BASE}/api/albums`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const albums = await res.json();
+
+      albums.forEach(album => {
+        const card = document.createElement('div');
+        card.className = 'album-card';
+        card.innerHTML = `
+          <div class='album-preview'>
+            ${album.photos.slice(0,4).map(p => `<img src='${API_BASE}/uploads/${p.filename}' alt='' />`).join('')}
+          </div>
+          <div class='album-title'>${album.title}</div>
+        `;
+        card.addEventListener('click', () => openAlbum(album));
+        albumGrid.appendChild(card);
+      });
+    } catch (err) {
+      console.error(err);
+      albumGrid.textContent = 'Erro ao carregar álbuns.';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadAlbums);
+})();

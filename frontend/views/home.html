@@ -22,10 +22,13 @@
 
     <div class="user-info">
       <span id="username">Nome do usuário</span>
-      <div id="logoutOption" class="logout-option" style="cursor: pointer;">
-        Sair
+
+      <div class="logout-menu">
+        <div id="logoutOption" class="logout-option">Sair</div>
+        <div id="deleteUserOption" class="logout-option delete">Excluir Conta</div>
       </div>
     </div>
+
   </header>
 
   <main>
@@ -33,7 +36,7 @@
     <section class="gallery"></section>
   </main>
 
-  <!-- Modal oculto por padrão -->
+  <!-- Modal da foto -->
   <div id="photoModal" class="modal hidden">
     <div class="modal-backdrop"></div>
 
@@ -49,7 +52,6 @@
   </div>
 
 
-  <script src="../assets/js/gallery.js"></script>
   <script type="module" src="../assets/js/home.js"></script>
 </body>
 

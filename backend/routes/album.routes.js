@@ -11,5 +11,6 @@ router.get('/:id', albumController.getAlbumById);
 router.delete('/:id', albumController.deleteAlbum);
 router.post('/add-photo', albumController.addPhotoToAlbum);
 router.patch('/:albumId/remove-photo', albumController.removePhotoFromAlbum);
+router.patch('/:id', albumController.updateAlbumTitle);
 
 module.exports = router;

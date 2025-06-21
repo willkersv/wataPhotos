@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WataPhotos</title>
+  <title>WataPhotos - Álbuns</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 
@@ -18,9 +19,9 @@
       <a href="#" id="createAlbumBtn">Criar Álbum</a>
     </nav>
 
-    <div class="user-info">
-      <span id="username">Nome do usuário</span>
-      <div id="logoutOption" class="logout-option" style="cursor: pointer;">Sair</div>
+    <div class="logout-menu">
+      <div id="logoutOption" class="logout-option">Sair</div>
+      <div id="deleteUserOption" class="logout-option delete">Excluir Conta</div>
     </div>
   </header>
 
@@ -29,8 +30,21 @@
     <section class="album-grid" id="albumGrid"></section>
   </main>
 
-  <!-- Modal de criação de álbum -->
-  <div class="modal hidden" id="albumModal">
+  <!-- Modal para visualizar álbum -->
+  <div id="viewAlbumModal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-box">
+      <h3 id="modalAlbumTitle">Título do Álbum</h3>
+      <div id="modalPhotos" class="gallery"></div>
+      <div class="modal-actions">
+        <button id="deleteAlbumBtn" class="btn-danger">Excluir Álbum</button>
+        <button id="closeModalBtn" class="btn-outline">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para criação de álbum -->
+  <div id="createAlbumModal" class="modal hidden">
     <div class="modal-backdrop" id="modalBackdrop"></div>
     <div class="modal-box">
       <h3>Novo Álbum</h3>
@@ -43,6 +57,7 @@
     </div>
   </div>
 
-  <script src="../assets/js/album-list.js"></script>
+  <script src="../assets/js/album-list.js" defer></script>
 </body>
+
 </html>
