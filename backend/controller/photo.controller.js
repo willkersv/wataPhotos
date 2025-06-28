@@ -10,7 +10,7 @@ const logError = (error) => {
 
 exports.uploadPhoto = async (req, res) => {
   try {
-    const { title, description, userId } = req.body;
+    const { title, description } = req.body;
 
     if (!req.file) return res.status(400).json({ message: 'Arquivo não enviado.' });
 
@@ -18,7 +18,7 @@ exports.uploadPhoto = async (req, res) => {
       title,
       description,
       filename: req.file.filename,
-      user: userId
+      user: req.user.id 
     });
 
     await photo.save();
@@ -35,11 +35,12 @@ exports.uploadPhoto = async (req, res) => {
 
 exports.getAllPhotos = async (req, res) => {
   try {
-    const photos = await Photo.find().populate('user', 'name email');
+    const userId = req.user.id; 
+    const photos = await Photo.find({ user: userId }); 
     res.json(photos);
-  } catch (error) {
-    logError(error);
-    res.status(500).json({ message: 'Erro ao buscar fotos.' });
+  } catch (err) {
+    console.error("Erro ao buscar fotos:", err);
+    res.status(500).json({ message: 'Erro ao buscar fotos' });
   }
 };
 

@@ -125,3 +125,32 @@ exports.removePhotoFromAlbum = async (req, res) => {
     res.status(500).json({ message: 'Erro ao remover foto do álbum.' });
   }
 };
+
+exports.updateAlbumTitle = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+
+    if (!title) {
+      return res.status(400).json({ message: 'O novo título é obrigatório.' });
+    }
+
+    const album = await Album.findByIdAndUpdate(
+      id,
+      { title },
+      { new: true }
+    );
+
+    if (!album) {
+      return res.status(404).json({ message: 'Álbum não encontrado.' });
+    }
+
+    res.json({
+      message: 'Título do álbum atualizado com sucesso.',
+      album
+    });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({ message: 'Erro ao atualizar o álbum.' });
+  }
+};

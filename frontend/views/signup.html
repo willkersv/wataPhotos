@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WataPhotos</title>
+
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/signup.css" />
+</head>
+
+<body>
+  <main class="card">
+    <h1>Criar nova conta</h1>
+
+    <form id="signupForm">
+      <input type="text" name="name" placeholder="Nome completo" required />
+      <input type="email" name="email" placeholder="E‑mail" required />
+      <input type="password" name="password" placeholder="Senha" required />
+      <button type="submit">Cadastrar</button>
+      <p class="error" id="errorMsg"></p>
+    </form>
+
+    <p class="helper">
+      Já possui conta?
+      <a href="../index.html">Voltar para login</a>
+    </p>
+  </main>
+
+  <script type="module">
+    const form = document.getElementById("signupForm");
+    const msg = document.getElementById("errorMsg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.textContent = "";
+
+      const body = Object.fromEntries(new FormData(form));
+
+      try { //requisição para criar usuário
+        const res = await fetch("http://localhost:3000/api/users/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+          msg.textContent = (await res.json()).message || "Erro";
+          return;
+        }
+        window.location.href = "../index.html";
+      } catch {
+        msg.textContent = "Falha de conexão";
+      }
+    });
+  </script>
+</body>
+
+</html>

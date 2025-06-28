@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WataPhotos</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="../assets/img/logo.png" alt="WataPhotos Logo">
+    </div>
+
+    <nav>
+      <a href="../views/albuns.html">Álbuns</a>
+      <label for="photoInput" class="upload-link">Adicionar Foto</label>
+      <input type="file" id="photoInput" style="display: none;" />
+    </nav>
+
+    <div class="user-info">
+      <div class="user-dropdown">
+        <span id="username">Nome do usuário</span>
+
+        <div class="logout-menu">
+          <div id="logoutOption" class="logout-option">Sair</div>
+          <div id="deleteUserOption" class="logout-option delete">Excluir Conta</div>
+        </div>
+      </div>
+    </div>
+
+  </header>
+
+  <main>
+    <h2 id="galeria">Galeria</h2>
+    <section class="gallery"></section>
+  </main>
+
+  <!-- Modal da foto -->
+  <div id="photoModal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-box">
+      <img id="modalImg" alt="imagem ampliada" />
+
+      <div class="modal-actions">
+        <button id="deleteBtn" class="btn-danger">Excluir foto</button>
+        <button id="addAlbumBtn" class="btn-primary">Adicionar ao álbum</button>
+        <button id="closeBtn" class="btn-outline">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script type="module" src="../assets/js/home.js"></script>
+</body>
+
+</html>
